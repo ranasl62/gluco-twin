@@ -1,0 +1,16 @@
+{
+  "data_source": "real",
+  "ohio_root": "/app/data/OhioT1DM",
+  "ohio_skip_test_head_steps": 12,
+  "n_patients": 12,
+  "epochs": 80,
+  "multi_horizon_epochs": 40,
+  "baseline_dl_epochs": 60,
+  "ablation_epochs": 80,
+  "run_ablations": true,
+  "horizon_baseline_epochs": 50,
+  "extend_baseline_horizons": true,
+  "skip_multi_horizon": false,
+  "ablation_aggregate_saved_this_run": true,
+  "ablation_aggregate_saved_via_component_script": false
+}

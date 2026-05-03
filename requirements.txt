@@ -1,0 +1,8 @@
+# Install PyTorch for your platform first: https://pytorch.org
+# Then (experiment-only bundle; no plotting stack):
+numpy>=1.24
+pandas>=2.0
+scikit-learn>=1.3
+scipy>=1.11
+tqdm>=4.65
+statsmodels>=0.14

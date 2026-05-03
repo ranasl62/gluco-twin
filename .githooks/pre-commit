@@ -1,0 +1,18 @@
+#!/bin/sh
+# Block accidental commit of steward-restricted OhioT1DM XML.
+set -eu
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  against=HEAD
+else
+  against=$(git hash-object -t tree /dev/null)
+fi
+for f in $(git diff-index --cached --name-only "$against"); do
+  case "$f" in
+    *.xml|*.XML) printf '%s\n' "Refusing to commit XML: $f" >&2; exit 1 ;;
+    data/OhioT1DM/2018/*|data/OhioT1DM/2020/*)
+      printf '%s\n' "Refusing to commit cohort data path: $f" >&2
+      exit 1
+      ;;
+  esac
+done
+exit 0

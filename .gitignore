@@ -1,0 +1,34 @@
+# Steward PDFs / instruction packs — never commit
+data/**/*.pdf
+
+# Steward OhioT1DM XML — never commit
+data/OhioT1DM/2018/
+data/OhioT1DM/2020/
+data/**/*.xml
+*.xml
+*-ws-training.xml
+*-ws-testing.xml
+
+outputs/
+*.npz
+*.ckpt
+*.pt
+*.pth
+
+.env
+.env.*
+*.pem
+*.key
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+.DS_Store
+.idea/
+.vscode/
+
+# Editor scratch buffers
+Untitled
+**/Untitled*

@@ -1,0 +1,28 @@
+#!/bin/sh
+# Scan commits being pushed for steward XML filenames and for disallowed authors
+# (e.g. IDE default "Cursor Agent" / cursoragent), so GitHub contributors stay human.
+set -eu
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$local_sha" = 0000000000000000000000000000000000000000 ]; then
+    continue
+  fi
+  if git diff --name-only "$remote_sha".."$local_sha" 2>/dev/null | grep -E '\.(xml|XML)$' >/dev/null; then
+    printf '%s\n' "Push blocked: commit range contains .xml files." >&2
+    exit 1
+  fi
+  if [ "$remote_sha" = 0000000000000000000000000000000000000000 ]; then
+    commit_list=$(git rev-list "$local_sha")
+  else
+    commit_list=$(git rev-list "${remote_sha}..${local_sha}")
+  fi
+  for c in $commit_list; do
+    an=$(git log -1 --format='%an' "$c")
+    ae=$(git log -1 --format='%ae' "$c")
+    if printf '%s\n%s\n' "$an" "$ae" | grep -qiE 'cursoragent|cursor[[:space:]_-]*agent|@cursor\.(ai|sh|com)|noreply@cursor\.'; then
+      printf '%s\n' "Push blocked: commit $c has author '$an <$ae>'." >&2
+      printf '%s\n' "Use your own git identity in this repo (see CONTRIBUTING.md)." >&2
+      exit 1
+    fi
+  done
+done
+exit 0
